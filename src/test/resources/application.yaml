@@ -1,0 +1,47 @@
+default:
+    application:
+        name       : TEST 
+        secret     : myvoiceismypassword
+        language   : en
+        host       : localhost
+        port       : 8080
+        minify:
+            js        : true
+            css       : true
+            jsfolder  : /foo
+            cssfolder : /bar
+            gzipjs    : false
+            gzipcss   : false
+        auth:
+            redirect  : /login
+            cookie:
+                name    : TEST-AUTH
+                encrypt : false
+                expires : 3600
+    cookie:
+        name       : TEST-SESSION
+        expires    : 86400
+        encryption : false
+    smtp:
+        host       : localhost
+        port       : 25
+        username   : foo
+        password   : bar
+        ssl        : false
+        
+test:
+    application:
+        port       : 10808
+    smtp:
+        port       : 3055
+    hibernate:
+        models     : de.svenkubiak.mangooio.models
+        hbm2ddl:
+            auto            : create-drop
+        connection:
+            driver_class    : org.apache.derby.jdbc.EmbeddedDriver
+            url             : jdbc:derby:memory/derbydb
+            username        : 
+            password        : 
+        dialect     : org.hibernate.dialect.DerbyTenSevenDialect
+        current_session_context_class : thread
