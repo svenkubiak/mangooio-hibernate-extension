@@ -10,6 +10,30 @@
 		<mangooio.version>1.0.0-RC2</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Sven Kubiak</name>
+			<email>sk@svenkubiak.de</email>
+		</developer>
+	</developers>
+	<prerequisites>
+		<maven>3.1.0</maven>
+	</prerequisites>
+	<scm>
+		<connection>scm:git:git@github.com:svenkubiak/mangooio-mongodb-extension.git</connection>
+		<developerConnection>scm:git:git@github.com:svenkubiak/mangooio-mongodb-extension.git</developerConnection>
+		<url>https://github.com/svenkubiak/mangooio-mongodb-extension</url>
+		<tag>HEAD</tag>
+	</scm>
+	<description>Convenient class for sending messages to Pushover in Java project</description>
+	<url>https://github.com/svenkubiak/JPushover</url>
 	<build>
 		<plugins>
 			<plugin>
