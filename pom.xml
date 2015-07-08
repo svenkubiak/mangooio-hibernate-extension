@@ -32,8 +32,8 @@
 		<url>https://github.com/svenkubiak/mangooio-mongodb-extension</url>
 		<tag>HEAD</tag>
 	</scm>
-	<description>Convenient class for sending messages to Pushover in Java project</description>
-	<url>https://github.com/svenkubiak/JPushover</url>
+	<description>Convenient class for the mangoo I/O framework to work with Hibernate</description>
+	<url>https://github.com/svenkubiak/mangooio-mongodb-extension</url>
 	<build>
 		<plugins>
 			<plugin>

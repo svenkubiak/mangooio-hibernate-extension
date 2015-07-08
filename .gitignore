@@ -4,3 +4,4 @@
 /target
 /*.versionsBackup
 memory/
+derby.log

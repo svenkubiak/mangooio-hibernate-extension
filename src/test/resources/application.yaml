@@ -40,7 +40,7 @@ test:
             auto            : create-drop
         connection:
             driver_class    : org.apache.derby.jdbc.EmbeddedDriver
-            url             : jdbc:derby:memory/derbydb
+            url             : jdbc:derby:memory/derbydb;create=true
             username        : 
             password        : 
         dialect     : org.hibernate.dialect.DerbyTenSevenDialect
