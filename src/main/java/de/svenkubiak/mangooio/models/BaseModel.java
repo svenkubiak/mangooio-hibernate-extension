@@ -7,7 +7,8 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class BaseModel {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id")
     private int id;
 

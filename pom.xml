@@ -4,7 +4,7 @@
 	<artifactId>mangooio-hibernate-extension</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>mangooio-hibernate-extension</name>
+	<name>mangoo I/O Hibernate extension</name>
 	<properties>
 		<mangooio.version>1.0.0-RC2</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

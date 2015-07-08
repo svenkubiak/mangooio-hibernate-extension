@@ -198,6 +198,7 @@ public class DataStore {
      * @param pkgname The package name to scan in
      * @return A list of annotated entity classes
      */
+    @SuppressWarnings("all")
     private List<Class> getClassesForPackage(String pkgname) {
         List<Class> classes = new ArrayList<Class>();
 
@@ -256,7 +257,7 @@ public class DataStore {
                     try {
                         jarFile.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LOG.error("Failed to close jarFile", e);
                     }
                 }
             }
