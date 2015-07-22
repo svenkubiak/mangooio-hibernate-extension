@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
-		<mangooio.version>1.0.0-RC2</mangooio.version>
+		<mangooio.version>1.0.0-RC4</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<licenses>
@@ -90,7 +90,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>de.svenkubiak</groupId>
+			<groupId>io.mangoo</groupId>
 			<artifactId>mangooio-core</artifactId>
 			<version>${mangooio.version}</version>
 			<scope>provided</scope>
@@ -112,7 +112,7 @@
 			<version>5.1.36</version>
 		</dependency>
 		<dependency>
-			<groupId>de.svenkubiak</groupId>
+			<groupId>io.mangoo</groupId>
 			<artifactId>mangooio-test-utilities</artifactId>
 			<version>${mangooio.version}</version>
 			<scope>test</scope>
