@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import mangoo.io.configuration.Config;
+import io.mangoo.configuration.Config;
 
 /**
  *

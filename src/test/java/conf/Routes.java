@@ -1,6 +1,6 @@
 package conf;
 
-import mangoo.io.interfaces.MangooRoutes;
+import io.mangoo.interfaces.MangooRoutes;
 
 public class Routes implements MangooRoutes {
     @Override

@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.svenkubiak.mangooio.models.Person;
-import mangoo.io.test.MangooTestInstance;
-import mangoo.io.test.MangooUnit;
+import io.mangoo.test.MangooTestInstance;
+import io.mangoo.test.MangooUnit;
 
 public class DataStoreTest extends MangooUnit {
     private static DataStore dataStore;

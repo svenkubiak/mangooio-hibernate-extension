@@ -3,7 +3,7 @@ package conf;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-import mangoo.io.interfaces.MangooLifecycle;
+import io.mangoo.interfaces.MangooLifecycle;
 
 @Singleton
 public class Module extends AbstractModule {
