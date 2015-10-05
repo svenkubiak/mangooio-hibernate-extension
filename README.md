@@ -36,4 +36,4 @@ Setup
 3) Inject the DataStore where needed
 
 	@Inject
-	DateStore dataStore;
+	DataStore dataStore;
