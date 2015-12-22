@@ -6,17 +6,23 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.svenkubiak.mangooio.models.Person;
-import io.mangoo.test.MangooTestInstance;
-import io.mangoo.test.MangooUnit;
+import io.mangoo.test.Mangoo;
 
-public class DataStoreTest extends MangooUnit {
+/**
+ *
+ * @author svenkubiak
+ *
+ */
+public class DataStoreTest {
     private static DataStore dataStore;
 
-    public DataStoreTest() {
-        dataStore = MangooTestInstance.IO.getInjector().getInstance(DataStore.class);
+    @BeforeClass
+    public static void start() throws InterruptedException {
+        dataStore = Mangoo.TEST.getInstance(DataStore.class);
     }
 
     @Before
@@ -26,10 +32,10 @@ public class DataStoreTest extends MangooUnit {
 
     @Test
     public void testInstert() {
-        Person person = new Person("Pew", "Poh");
+        final Person person = new Person("Pew", "Poh");
         dataStore.save(person);
 
-        Person p = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
+        final Person p = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
 
         assertNotNull(p);
     }
@@ -40,13 +46,13 @@ public class DataStoreTest extends MangooUnit {
 
     @Test
     public void testFind() {
-        Person a = new Person("foo", "bar");
+        final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
-        Person b = new Person("foo", "bar");
+        final Person b = new Person("foo", "bar");
         dataStore.save(b);
 
-        List<Person> persons = dataStore.find("FROM Person");
+        final List<Person> persons = dataStore.find("FROM Person");
 
         assertNotNull(persons);
         assertEquals(2, persons.size());
@@ -54,10 +60,10 @@ public class DataStoreTest extends MangooUnit {
 
     @Test
     public void testFindOne() {
-        Person a = new Person("foo", "bar");
+        final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
-        Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
 
         assertNotNull(b);
     }
