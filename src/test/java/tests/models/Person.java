@@ -1,6 +1,8 @@
-package de.svenkubiak.mangooio.models;
+package tests.models;
 
 import javax.persistence.Entity;
+
+import de.svenkubiak.mangooio.models.BaseModel;
 
 @Entity
 public class Person extends BaseModel {

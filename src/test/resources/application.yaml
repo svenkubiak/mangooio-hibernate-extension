@@ -35,7 +35,7 @@ test:
     smtp:
         port       : 3055
     hibernate:
-        models     : de.svenkubiak.mangooio.models
+        models     : tests.models
         hbm2ddl:
             auto            : create-drop
         connection:

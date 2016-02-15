@@ -1,4 +1,4 @@
-package de.svenkubiak.mangooio.hibernate;
+package tests.hibernate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.svenkubiak.mangooio.models.Person;
-import io.mangoo.test.Mangoo;
+import de.svenkubiak.mangooio.hibernate.DataStore;
+import io.mangoo.core.Application;
+import tests.models.Person;
 
 /**
  *
@@ -20,18 +20,14 @@ import io.mangoo.test.Mangoo;
 public class DataStoreTest {
     private static DataStore dataStore;
 
-    @BeforeClass
-    public static void start() throws InterruptedException {
-        dataStore = Mangoo.TEST.getInstance(DataStore.class);
-    }
-
     @Before
     public void init() {
-        dataStore.truncateTable("Person");
+        dataStore = Application.getInstance(DataStore.class);
     }
 
     @Test
     public void testInstert() {
+        dataStore.truncateTable("Person");
         final Person person = new Person("Pew", "Poh");
         dataStore.save(person);
 
@@ -41,11 +37,8 @@ public class DataStoreTest {
     }
 
     @Test
-    public void testDelete() {
-    }
-
-    @Test
     public void testFind() {
+        dataStore.truncateTable("Person");
         final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
@@ -60,6 +53,7 @@ public class DataStoreTest {
 
     @Test
     public void testFindOne() {
+        dataStore.truncateTable("Person");
         final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
