@@ -37,6 +37,36 @@ public class DataStoreTest {
     }
 
     @Test
+    public void testUpdate() {
+        dataStore.truncateTable("Person");
+        final Person a = new Person("foo", "bar");
+        dataStore.save(a);
+
+        a.setLastname("bar2");
+        dataStore.update(a);
+
+        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+
+        assertNotNull(b);
+        assertEquals(a.getLastname(), b.getLastname());
+    }
+
+    @Test
+    public void testInsertOrUpdate() {
+        dataStore.truncateTable("Person");
+        final Person a = new Person("foo", "bar");
+        dataStore.saveOrUpdate(a);
+
+        a.setLastname("bar2");
+        dataStore.saveOrUpdate(a);
+
+        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+
+        assertNotNull(b);
+        assertEquals(a.getLastname(), b.getLastname());
+    }
+
+    @Test
     public void testFind() {
         dataStore.truncateTable("Person");
         final Person a = new Person("foo", "bar");
