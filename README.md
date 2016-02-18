@@ -37,3 +37,25 @@ Setup
 
 	@Inject
 	DataStore dataStore;
+
+Usage
+-----
+1) Using wrapper methods
+
+    Person person = new Person();
+    
+	dataStore.save(person);
+	dataStore.update(person);
+	dataStore.saveOrUpdate(person);
+
+2) Using find methods
+
+    Person p = dataStore.findOne("FROM Person p WHERE p.firstname = 'Foo'");
+    
+3) Using Hibernate Criteria
+
+    Session session = dataStore.getSession();
+    
+	Criteria critera = session.createCriteria(Person.class);
+	criteria.add(Restrictions.eq("firstname", "Foo"));
+	Person p = (Person) critera.uniqueResult();
