@@ -132,6 +132,54 @@ public class DataStore {
             session.close();
         }
     }
+    
+    /**
+     * Updates an object to the database. This method is transactional, meaning
+     * that any exception during persistence leads to a rollback.
+     *
+     * @param object The object to save
+     */
+    public void update(Object object) {
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.update(object);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOG.error("Failed to persist entity", e);
+        } finally {
+            session.close();
+        }
+    }
+
+    /**
+     * Saves or updates an object to the database. This method is transactional,
+     * meaning that any exception during persistence leads to a rollback.
+     *
+     * @param object The object to save
+     */
+    public void saveOrUpdate(Object object) {
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(object);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOG.error("Failed to persist entity", e);
+        } finally {
+            session.close();
+        }
+    }
 
     /**
      * Deletes an object to the database. This method is
