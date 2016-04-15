@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
-		<mangooio.version>2.3.1</mangooio.version>
+		<mangooio.version>2.6.0</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<licenses>
@@ -159,7 +159,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
+			<version>6.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.mangoo</groupId>
