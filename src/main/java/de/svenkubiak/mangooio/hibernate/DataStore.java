@@ -38,19 +38,19 @@ public class DataStore {
     private static final String CONFIG_PREFIX = "hibernate";
     private static final String PACKAGE = CONFIG_PREFIX + ".models";
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Inject
     public DataStore(Config config) {
-        Configuration configuration = new Configuration();
-        for (Entry<String, String> entry : config.getAllConfigurations().entrySet()) {
+        final Configuration configuration = new Configuration();
+        for (final Entry<String, String> entry : config.getAllConfigurations().entrySet()) {
             if (entry.getKey().startsWith(CONFIG_PREFIX)) {
                 configuration.setProperty(entry.getKey(), entry.getValue());
             }
         }
 
-        List<Class> classes = getClassesForPackage(config.getString(PACKAGE));
-        for (Class clazz : classes) {
+        final List<Class> classes = getClassesForPackage(config.getString(PACKAGE));
+        for (final Class clazz : classes) {
             configuration.addAnnotatedClass(clazz);
         }
 
@@ -71,14 +71,15 @@ public class DataStore {
      * Retrieves multiple rows from the database
      *
      * @param hqlQuery The query to execute
+     * @param <T> T just ignore this
      * @return A list of objects from the database or an empty list if none found
      */
     @SuppressWarnings("unchecked")
     public <T> T find(String hqlQuery) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         try {
             return (T) session.createQuery(hqlQuery).list();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {
             session.close();
@@ -91,15 +92,16 @@ public class DataStore {
      * Retrieves a single row from the database
      *
      * @param hqlQuery The query to execute
+     * @param <T> T just ignore this
      * @return A single row object or null if none found
      */
     @SuppressWarnings("unchecked")
     public <T> T findOne(String hqlQuery) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
 
         try {
             return (T) session.createQuery(hqlQuery).uniqueResult();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {
             session.close();
@@ -116,14 +118,14 @@ public class DataStore {
      * @param object The object to save
      */
     public void save(Object object) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
             session.save(object);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -132,7 +134,7 @@ public class DataStore {
             session.close();
         }
     }
-    
+
     /**
      * Updates an object to the database. This method is transactional, meaning
      * that any exception during persistence leads to a rollback.
@@ -140,14 +142,14 @@ public class DataStore {
      * @param object The object to save
      */
     public void update(Object object) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
             session.update(object);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -164,14 +166,14 @@ public class DataStore {
      * @param object The object to save
      */
     public void saveOrUpdate(Object object) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
             session.saveOrUpdate(object);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -189,14 +191,14 @@ public class DataStore {
      * @param object The object to save
      */
     public void delete(Object object) {
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
             session.delete(object);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -212,15 +214,15 @@ public class DataStore {
      * @param name The name of the table
      */
     public void truncateTable(String name){
-        Session session = this.sessionFactory.openSession();
+        final Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery(String.format("DELETE FROM %s", name));
+            final Query query = session.createQuery(String.format("DELETE FROM %s", name));
             query.executeUpdate();
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (final HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -248,12 +250,12 @@ public class DataStore {
      */
     @SuppressWarnings("all")
     private List<Class> getClassesForPackage(String pkgname) {
-        List<Class> classes = new ArrayList<Class>();
+        final List<Class> classes = new ArrayList<Class>();
 
         File directory = null;
         String fullPath;
-        String relPath = pkgname.replace('.', '/');
-        URL resource = ClassLoader.getSystemClassLoader().getResource(relPath);
+        final String relPath = pkgname.replace('.', '/');
+        final URL resource = ClassLoader.getSystemClassLoader().getResource(relPath);
 
         if (resource == null) {
             throw new RuntimeException("No resource for " + relPath);
@@ -262,20 +264,20 @@ public class DataStore {
 
         try {
             directory = new File(resource.toURI());
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new RuntimeException(pkgname + " (" + resource + ") does not appear to be a valid URL / URI.  Strange, since we got it from the system...", e);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             directory = null;
         }
 
         if (directory != null && directory.exists()) {
-            String[] files = directory.list();
+            final String[] files = directory.list();
             for (int i = 0; i < files.length; i++) {
                 if (files[i].endsWith(".class")) {
-                    String className = pkgname + '.' + files[i].substring(0, files[i].length() - 6);
+                    final String className = pkgname + '.' + files[i].substring(0, files[i].length() - 6);
                     try {
                         classes.add(Class.forName(className));
-                    } catch (ClassNotFoundException e) {
+                    } catch (final ClassNotFoundException e) {
                         throw new RuntimeException("ClassNotFoundException loading " + className);
                     }
                 }
@@ -283,28 +285,28 @@ public class DataStore {
         } else {
             JarFile jarFile = null;
             try {
-                String jarPath = fullPath.replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
+                final String jarPath = fullPath.replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
                 jarFile = new JarFile(jarPath);
-                Enumeration<JarEntry> entries = jarFile.entries();
+                final Enumeration<JarEntry> entries = jarFile.entries();
                 while (entries.hasMoreElements()) {
-                    JarEntry entry = entries.nextElement();
-                    String entryName = entry.getName();
+                    final JarEntry entry = entries.nextElement();
+                    final String entryName = entry.getName();
                     if (entryName.startsWith(relPath) && entryName.length() > (relPath.length() + "/".length())) {
-                        String className = entryName.replace('/', '.').replace('\\', '.').replace(".class", "");
+                        final String className = entryName.replace('/', '.').replace('\\', '.').replace(".class", "");
                         try {
                             classes.add(Class.forName(className));
-                        } catch (ClassNotFoundException e) {
+                        } catch (final ClassNotFoundException e) {
                             throw new RuntimeException("ClassNotFoundException loading " + className);
                         }
                     }
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RuntimeException(pkgname + " (" + directory + ") does not appear to be a valid package", e);
             } finally {
                 if (jarFile != null) {
                     try {
                         jarFile.close();
-                    } catch (IOException e) {
+                    } catch (final IOException e) {
                         LOG.error("Failed to close jarFile", e);
                     }
                 }
