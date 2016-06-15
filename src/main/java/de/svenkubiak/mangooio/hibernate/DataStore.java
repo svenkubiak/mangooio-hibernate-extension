@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -78,7 +79,7 @@ public class DataStore {
     public <T> T find(String hqlQuery) {
         final Session session = this.sessionFactory.openSession();
         try {
-            return (T) session.createQuery(hqlQuery).list();
+            return (T) session.createQuery(hqlQuery).getResultList();
         } catch (final HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {
@@ -90,17 +91,15 @@ public class DataStore {
 
     /**
      * Retrieves a single row from the database
-     *
+     * 
      * @param hqlQuery The query to execute
-     * @param <T> T just ignore this
-     * @return A single row object or null if none found
+     * @return Optional, containing a single row object or null if none found
      */
-    @SuppressWarnings("unchecked")
-    public <T> T findOne(String hqlQuery) {
+    public Optional findOne(String hqlQuery) {
         final Session session = this.sessionFactory.openSession();
 
         try {
-            return (T) session.createQuery(hqlQuery).uniqueResult();
+            return session.createQuery(hqlQuery).uniqueResultOptional();
         } catch (final HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {

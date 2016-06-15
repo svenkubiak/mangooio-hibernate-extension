@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import tests.models.Person;
  * @author svenkubiak
  *
  */
+@SuppressWarnings("rawtypes")
 public class DataStoreTest {
     private static DataStore dataStore;
 
@@ -31,9 +33,9 @@ public class DataStoreTest {
         final Person person = new Person("Pew", "Poh");
         dataStore.save(person);
 
-        final Person p = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
+        final Optional result = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
 
-        assertNotNull(p);
+        assertNotNull(result.get());
     }
 
     @Test
@@ -45,10 +47,11 @@ public class DataStoreTest {
         a.setLastname("bar2");
         dataStore.update(a);
 
-        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
-
-        assertNotNull(b);
-        assertEquals(a.getLastname(), b.getLastname());
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        Person p = (Person) b.get();
+        
+        assertNotNull(p);
+        assertEquals(a.getLastname(), p.getLastname());
     }
 
     @Test
@@ -60,10 +63,11 @@ public class DataStoreTest {
         a.setLastname("bar2");
         dataStore.saveOrUpdate(a);
 
-        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        Person p = (Person) b.get();
 
-        assertNotNull(b);
-        assertEquals(a.getLastname(), b.getLastname());
+        assertNotNull(p);
+        assertEquals(a.getLastname(), p.getLastname());
     }
 
     @Test
@@ -87,9 +91,9 @@ public class DataStoreTest {
         final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
-        final Person b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
 
-        assertNotNull(b);
+        assertNotNull(b.get());
     }
 
     @Test
