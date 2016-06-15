@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.svenkubiak</groupId>
 	<artifactId>mangooio-hibernate-extension</artifactId>
-	<version>3.0.1-SNAPSHOT</version>
+	<version>3.1.0</version>
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
@@ -29,7 +29,7 @@
 		<connection>scm:git:git@github.com:svenkubiak/mangooio-hibernate-extension.git</connection>
 		<developerConnection>scm:git:git@github.com:svenkubiak/mangooio-hibernate-extension.git</developerConnection>
 		<url>https://github.com/svenkubiak/mangooio-hibernate-extension</url>
-		<tag>HEAD</tag>
+		<tag>3.1.0</tag>
 	</scm>
 	<description>Convenient class for the mangoo I/O framework to work with Hibernate</description>
 	<url>https://github.com/svenkubiak/mangooio-hibernate-extension</url>
