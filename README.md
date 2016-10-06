@@ -1,6 +1,5 @@
 [![Maven Central](https://img.shields.io/maven-central/v/de.svenkubiak/mangooio-hibernate-extension.svg)](http://search.maven.org/#search|ga|1|mangooio-hibernate-extension)
 [![Travis Build Status](https://travis-ci.org/svenkubiak/mangooio-hibernate-extension.svg?branch=master)](http://travis-ci.org/svenkubiak/mangooio-hibernate-extension)
-[![Flattr this repository](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=svenkubiak&url=https://github.com/svenkubiak/mangooio-hibernate-module&title=mangoo-mongodb-module&language=en&tags=github&category=software)
 
 
 
