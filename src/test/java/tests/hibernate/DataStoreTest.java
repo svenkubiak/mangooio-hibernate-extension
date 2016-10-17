@@ -2,6 +2,7 @@ package tests.hibernate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import de.svenkubiak.mangooio.hibernate.DataStore;
 import io.mangoo.core.Application;
 import tests.models.Person;
+import tests.models.submodels.Car;
 
 /**
  *
@@ -35,7 +37,7 @@ public class DataStoreTest {
 
         final Optional result = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
 
-        assertNotNull(result.get());
+        assertTrue(result.isPresent());
     }
 
     @Test
@@ -93,7 +95,18 @@ public class DataStoreTest {
 
         final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
 
-        assertNotNull(b.get());
+        assertTrue(b.isPresent());
+    }
+    
+    @Test
+    public void testSubPackage() {
+        dataStore.truncateTable("Car");
+        final Car c = new Car("Tesla");
+        dataStore.save(c);
+
+        final Optional car = dataStore.findOne("FROM Car c WHERE c.name = 'Tesla'");
+
+        assertTrue(car.isPresent());
     }
 
     @Test

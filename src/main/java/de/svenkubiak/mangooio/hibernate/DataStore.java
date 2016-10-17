@@ -1,30 +1,26 @@
 package de.svenkubiak.mangooio.hibernate;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+
+import javax.persistence.Entity;
 
 import org.hibernate.HibernateException;
-import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import io.mangoo.configuration.Config;
 
 /**
@@ -50,7 +46,11 @@ public class DataStore {
             }
         }
 
-        final List<Class> classes = getClassesForPackage(config.getString(PACKAGE));
+        List<Class> classes = new ArrayList<>();
+        new FastClasspathScanner(config.getString(PACKAGE))
+            .matchClassesWithAnnotation(Entity.class, classes::add)
+            .scan();
+        
         for (final Class clazz : classes) {
             configuration.addAnnotatedClass(clazz);
         }
@@ -229,89 +229,5 @@ public class DataStore {
         } finally {
             session.close();
         }
-    }
-
-    /**
-     * Get all model class for a specific package for entity mapping
-     *
-     * Source found at:
-     * http://stackoverflow.com/questions/10910510/get-a-array-of-class-files-inside-a-package-in-java
-     *
-     * Yes!!!111ELF this is still necessary in Hibernate 4.x as there is no way of telling
-     * hibernate where to find the annotated classes in a specific package. There is a
-     * configuration method called addPackage() but it is not clear what it does and doesn't
-     * do what it's name promises.
-     *
-     * See: http://stackoverflow.com/questions/28097847/hibernate-4-3-x-load-all-entity-annotated-classes
-     *
-     * @param pkgname The package name to scan in
-     * @return A list of annotated entity classes
-     */
-    @SuppressWarnings("all")
-    private List<Class> getClassesForPackage(String pkgname) {
-        final List<Class> classes = new ArrayList<Class>();
-
-        File directory = null;
-        String fullPath;
-        final String relPath = pkgname.replace('.', '/');
-        final URL resource = ClassLoader.getSystemClassLoader().getResource(relPath);
-
-        if (resource == null) {
-            throw new RuntimeException("No resource for " + relPath);
-        }
-        fullPath = resource.getFile();
-
-        try {
-            directory = new File(resource.toURI());
-        } catch (final URISyntaxException e) {
-            throw new RuntimeException(pkgname + " (" + resource + ") does not appear to be a valid URL / URI.  Strange, since we got it from the system...", e);
-        } catch (final IllegalArgumentException e) {
-            directory = null;
-        }
-
-        if (directory != null && directory.exists()) {
-            final String[] files = directory.list();
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].endsWith(".class")) {
-                    final String className = pkgname + '.' + files[i].substring(0, files[i].length() - 6);
-                    try {
-                        classes.add(Class.forName(className));
-                    } catch (final ClassNotFoundException e) {
-                        throw new RuntimeException("ClassNotFoundException loading " + className);
-                    }
-                }
-            }
-        } else {
-            JarFile jarFile = null;
-            try {
-                final String jarPath = fullPath.replaceFirst("[.]jar[!].*", ".jar").replaceFirst("file:", "");
-                jarFile = new JarFile(jarPath);
-                final Enumeration<JarEntry> entries = jarFile.entries();
-                while (entries.hasMoreElements()) {
-                    final JarEntry entry = entries.nextElement();
-                    final String entryName = entry.getName();
-                    if (entryName.startsWith(relPath) && entryName.length() > (relPath.length() + "/".length())) {
-                        final String className = entryName.replace('/', '.').replace('\\', '.').replace(".class", "");
-                        try {
-                            classes.add(Class.forName(className));
-                        } catch (final ClassNotFoundException e) {
-                            throw new RuntimeException("ClassNotFoundException loading " + className);
-                        }
-                    }
-                }
-            } catch (final IOException e) {
-                throw new RuntimeException(pkgname + " (" + directory + ") does not appear to be a valid package", e);
-            } finally {
-                if (jarFile != null) {
-                    try {
-                        jarFile.close();
-                    } catch (final IOException e) {
-                        LOG.error("Failed to close jarFile", e);
-                    }
-                }
-            }
-        }
-
-        return classes;
     }
 }
