@@ -1,10 +1,12 @@
 default:
     application:
         name       : TEST 
-        secret     : myvoiceismypassword
+        secret     : myvoiceismypasswordmyvoiceismypasswordfdsfd
         language   : en
-        host       : localhost
-        port       : 8080
+    connector:
+        http:
+            host      : localhost
+            port      : 8080
         minify:
             js        : true
             css       : true
@@ -31,7 +33,10 @@ default:
         
 test:
     application:
-        port       : 10808
+    connector:
+        http:
+            host      : localhost
+            port      : 10808
     smtp:
         port       : 3055
     hibernate:
