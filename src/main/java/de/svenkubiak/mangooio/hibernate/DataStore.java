@@ -106,7 +106,7 @@ public class DataStore {
             session.close();
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
