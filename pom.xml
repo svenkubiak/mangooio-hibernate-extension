@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
-		<mangooio.version>4.5.0</mangooio.version>
+		<mangooio.version>4.6.0</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<licenses>
