@@ -1,6 +1,6 @@
 package tests;
 
-import io.mangoo.test.MangooRunner;
+import io.mangoo.test.TestRunner;
 
-public class TestSuite extends MangooRunner {
+public class TestSuite extends TestRunner {
 }
