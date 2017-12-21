@@ -44,9 +44,9 @@ Usage
 ```
     Person person = new Person();
     
-	dataStore.save(person);
-	dataStore.update(person);
-	dataStore.saveOrUpdate(person);
+    dataStore.save(person);
+    dataStore.update(person); 
+    dataStore.saveOrUpdate(person);
 ```
 2) Using find methods
 ```
@@ -56,7 +56,7 @@ Usage
 ```
     Session session = dataStore.getSession();
     
-	Criteria critera = session.createCriteria(Person.class);
-	criteria.add(Restrictions.eq("firstname", "Foo"));
-	Person p = (Person) critera.uniqueResult();
+    Criteria critera = session.createCriteria(Person.class);
+    criteria.add(Restrictions.eq("firstname", "Foo"));
+    Person p = (Person) critera.uniqueResult();
 ```
