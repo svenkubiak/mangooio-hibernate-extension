@@ -21,7 +21,7 @@ Setup
 2) Configure Hibernate in your mangoo I/O application.yaml, e.g.
 ```	
     hibernate:
-        models     : de.svenkubiak.mangooio.models
+        models: de.svenkubiak.mangooio.models
         hbm2ddl:
             auto            : create-drop
         connection:
@@ -29,13 +29,13 @@ Setup
             url             : jdbc:derby:memory/derbydb
             username        : 
             password        : 
-        dialect     : org.hibernate.dialect.DerbyTenSevenDialect
-        current_session_context_class : thread
+        dialect: org.hibernate.dialect.DerbyTenSevenDialect
+        current_session_context_class: thread
 ```       
 3) Inject the DataStore where needed
 ```
-	@Inject
-	DataStore dataStore;
+    @Inject
+    DataStore dataStore;
 ```
 
 Usage
