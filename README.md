@@ -11,15 +11,15 @@ Setup
 -----
 
 1) Add the mangooio-hibernate-extension dependency to your pom.xml:
-
-    <dependency>
-        <groupId>de.svenkubiak</groupId>
-        <artifactId>mangooio-hibernate-extension</artifactId>
-        <version>x.x.x</version>
-    </dependency>
-
+```
+	<dependency>
+ 		<groupId>de.svenkubiak</groupId>
+		<artifactId>mangooio-hibernate-extension</artifactId>	
+		<version>x.x.x</version>	
+	</dependency>
+```
 2) Configure Hibernate in your mangoo I/O application.yaml, e.g.
-	
+```	
     hibernate:
         models     : de.svenkubiak.mangooio.models
         hbm2ddl:
@@ -31,30 +31,32 @@ Setup
             password        : 
         dialect     : org.hibernate.dialect.DerbyTenSevenDialect
         current_session_context_class : thread
-        
+```       
 3) Inject the DataStore where needed
-
+```
 	@Inject
 	DataStore dataStore;
+```
 
 Usage
 -----
 1) Using wrapper methods
-
+```
     Person person = new Person();
     
 	dataStore.save(person);
 	dataStore.update(person);
 	dataStore.saveOrUpdate(person);
-
+```
 2) Using find methods
-
+```
     Person p = dataStore.findOne("FROM Person p WHERE p.firstname = 'Foo'");
-    
+```    
 3) Using Hibernate Criteria
-
+```
     Session session = dataStore.getSession();
     
 	Criteria critera = session.createCriteria(Person.class);
 	criteria.add(Restrictions.eq("firstname", "Foo"));
 	Person p = (Person) critera.uniqueResult();
+```
