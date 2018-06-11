@@ -1,7 +1,7 @@
 default:
     application:
         name       : TEST 
-        secret     : myvoiceismypasswordmyvoiceismypasswordfdsfd
+        secret     : 09riZoCU3f9B2856PXFR0cqH641zteGK1lAbezljHlyF6wLN3WOeL9ziimT7Flsy
         language   : en
     connector:
         http:
@@ -18,12 +18,14 @@ default:
             redirect  : /login
             cookie:
                 name    : TEST-AUTH
-                encrypt : false
                 expires : 3600
+                signkey : AKOoOEs4Z1mXmZY6aQkTtpq7p7LVwvV4QlfJ2yXUX0aQf1bk3uHF0o11WvaI06jd
+                encryptionkey: XxFHnXXJkY3qvAkDtlITTCywJIrR2F43bkp2ml4I3bOOnyiigXKKwWHUcNdqAIBH
     cookie:
         name       : TEST-SESSION
         expires    : 86400
-        encryption : false
+        signkey : kFalcva0lYCxwlCp9IXiTIh4GTxsJ2eZAM6rjjgAvzlDZ4UyjaHGCskwEUL7v95B
+        encryptionkey: vwnfzDDKGpcdlO4yYdMYlclHEiEMD8jTxQpzzyAkllZ6zPVD2oPwGMCwUxYhOC4h
     smtp:
         host       : localhost
         port       : 25
