@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import javax.persistence.Entity;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +18,8 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ScanResult;
 import io.mangoo.configuration.Config;
 
 /**
@@ -47,9 +46,14 @@ public class DataStore {
         }
 
         List<Class> classes = new ArrayList<>();
-        new FastClasspathScanner(config.getString(PACKAGE))
-            .matchClassesWithAnnotation(Entity.class, classes::add)
-            .scan();
+        try (ScanResult scanResult =
+                new ClassGraph()
+                    .enableAnnotationInfo()
+                    .enableClassInfo()
+                    .whitelistPackages(config.getString(PACKAGE))
+                    .scan()) {
+            scanResult.getClassesWithAnnotation("javax.persistence.Entity").forEach(c -> classes.add(c.loadClass()));
+        }
         
         for (final Class clazz : classes) {
             configuration.addAnnotatedClass(clazz);
