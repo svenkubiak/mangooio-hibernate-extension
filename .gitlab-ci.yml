@@ -1,3 +1,5 @@
+image: adoptopenjdk/maven-openjdk11
+
 stages:
   - test
   - sonar
@@ -7,7 +9,7 @@ variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 cache:
-  key: "$CI_JOB_NAME"  
+  key: "$CI_JOB_NAME"
   paths:
     - .m2/repository
 
@@ -17,7 +19,7 @@ test:
 
 sonar:
   stage: sonar
-  script: 
-  - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar --settings settings.xml   
+  script:
+  - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar --settings settings.xml
   only:
   - master
