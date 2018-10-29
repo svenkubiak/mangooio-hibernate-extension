@@ -1,0 +1,13 @@
+[application]
+	name = App
+	secret = 6BG51pJ2kZQM3fkjNlGz5Y40InbUwVrArdf27hXXn9vkxhRbd6TOPei0R6NPqP0i
+[connector]
+	http.host = localhost
+	http.port = 10808
+[hibernate]
+models = tests.models
+hbm2ddl.auto = create-drop
+connection.driver_class = org.apache.derby.jdbc.EmbeddedDriver
+connection.url = jdbc:derby:memory/derbydb;create=true
+dialect = org.hibernate.dialect.DerbyTenSevenDialect
+current_session_context_class = thread

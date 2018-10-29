@@ -20,7 +20,7 @@ import com.google.inject.Singleton;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
-import io.mangoo.configuration.Config;
+import io.mangoo.core.Config;
 
 /**
  *

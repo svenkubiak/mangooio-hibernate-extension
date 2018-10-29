@@ -7,11 +7,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import de.svenkubiak.mangooio.hibernate.DataStore;
 import io.mangoo.core.Application;
+import io.mangoo.test.TestRunner;
 import tests.models.Person;
 import tests.models.submodels.Car;
 
@@ -20,12 +22,13 @@ import tests.models.submodels.Car;
  * @author svenkubiak
  *
  */
+@ExtendWith({TestRunner.class})
 @SuppressWarnings("rawtypes")
 public class DataStoreTest {
     private static DataStore dataStore;
 
-    @Before
-    public void init() {
+    @BeforeAll
+    public static void init() {
         dataStore = Application.getInstance(DataStore.class);
     }
 
