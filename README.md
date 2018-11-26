@@ -7,6 +7,8 @@ Hibernate extension for the mangoo I/O framework
 =====================
 This is an easly plugable extension for the mangoo I/O framework to work with Hibernate.
 
+Requires Java 11.
+
 Setup
 -----
 
@@ -18,19 +20,17 @@ Setup
 		<version>x.x.x</version>	
 	</dependency>
 ```
-2) Configure Hibernate in your mangoo I/O application.yaml, e.g.
+2) Configure Hibernate in your mangoo I/O config.props, e.g.
 ```	
-    hibernate:
-        models: de.svenkubiak.mangooio.models
-        hbm2ddl:
-            auto            : create-drop
-        connection:
-            driver_class    : org.apache.derby.jdbc.EmbeddedDriver
-            url             : jdbc:derby:memory/derbydb
-            username        : 
-            password        : 
-        dialect: org.hibernate.dialect.DerbyTenSevenDialect
-        current_session_context_class: thread
+	[hibernate]
+        models = de.svenkubiak.mangooio.models
+        hbm2ddl.auto = create-drop
+        connection.driver_class = org.apache.derby.jdbc.EmbeddedDriver
+        connection.url = jdbc:derby:memory/derbydb
+        connection.username = username 
+        connection.password = password
+        dialect = org.hibernate.dialect.DerbyTenSevenDialect
+        current_session_context_class = thread
 ```       
 3) Inject the DataStore where needed
 ```
