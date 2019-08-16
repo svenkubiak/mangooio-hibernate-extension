@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
-		<mangooio.version>5.8.0</mangooio.version>
+		<mangooio.version>5.9.0</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
 	</properties>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.4.3.Final</version>
+			<version>5.4.4.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -173,7 +173,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.16</version>
+			<version>8.0.17</version>
 		</dependency>
 		<dependency>
 			<groupId>io.mangoo</groupId>
