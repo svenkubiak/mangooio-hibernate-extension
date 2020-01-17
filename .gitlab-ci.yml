@@ -2,7 +2,6 @@ image: adoptopenjdk/maven-openjdk11
 
 stages:
   - test
-  - sonar
 
 variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -15,10 +14,3 @@ cache:
 test:
   stage: test
   script: mvn $MAVEN_CLI_OPTS clean verify
-
-sonar:
-  stage: sonar
-  script:
-  - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar --settings settings.xml
-  only:
-  - master
