@@ -50,7 +50,7 @@ public class DataStore {
                 new ClassGraph()
                     .enableAnnotationInfo()
                     .enableClassInfo()
-                    .whitelistPackages(config.getString(PACKAGE))
+                    .acceptPackages(config.getString(PACKAGE))
                     .scan()) {
             scanResult.getClassesWithAnnotation("javax.persistence.Entity").forEach(c -> classes.add(c.loadClass()));
         }
