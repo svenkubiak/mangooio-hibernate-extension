@@ -6,7 +6,7 @@
 	<packaging>jar</packaging>
 	<name>mangoo I/O Hibernate extension</name>
 	<properties>
-		<mangooio.version>6.11.0</mangooio.version>
+		<mangooio.version>6.15.0</mangooio.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
 	</properties>
@@ -85,7 +85,7 @@
 				<version>3.0.0-M4</version>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.7.0.1746</version>
 			</plugin>
@@ -174,7 +174,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.26</version>
+			<version>8.0.27</version>
 		</dependency>
 		<dependency>
 			<groupId>io.mangoo</groupId>
