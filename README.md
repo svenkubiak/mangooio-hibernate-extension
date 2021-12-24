@@ -7,7 +7,7 @@ Hibernate extension for the mangoo I/O framework
 =====================
 This is an easly plugable extension for the mangoo I/O framework to work with Hibernate.
 
-Requires Java 11.
+Requires Java 17.
 
 Setup
 -----
