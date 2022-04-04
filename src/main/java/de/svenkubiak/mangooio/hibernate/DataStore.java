@@ -3,6 +3,7 @@ package de.svenkubiak.mangooio.hibernate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.hibernate.HibernateException;
@@ -11,7 +12,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,6 @@ public class DataStore {
     private static final Logger LOG = LoggerFactory.getLogger(DataStore.class);
     private static final String CONFIG_PREFIX = "hibernate";
     private static final String PACKAGE = CONFIG_PREFIX + ".models";
-
     private final SessionFactory sessionFactory;
 
     @Inject
@@ -52,7 +51,7 @@ public class DataStore {
                     .enableClassInfo()
                     .acceptPackages(config.getString(PACKAGE))
                     .scan()) {
-            scanResult.getClassesWithAnnotation("javax.persistence.Entity").forEach(c -> classes.add(c.loadClass()));
+            scanResult.getClassesWithAnnotation("jakarta.persistence.Entity").forEach(c -> classes.add(c.loadClass()));
         }
         
         for (final Class clazz : classes) {
@@ -76,15 +75,20 @@ public class DataStore {
      * Retrieves multiple rows from the database
      *
      * @param hqlQuery The query to execute
+     * @param clazz The resulting class
      * @param <T> T just ignore this
+     * 
      * @return A list of objects from the database or an empty list if none found
      */
     @SuppressWarnings("unchecked")
-    public <T> T find(String hqlQuery) {
-        final Session session = this.sessionFactory.openSession();
+    public <T> T find(String hqlQuery, Class<?> clazz) {
+    	Objects.requireNonNull(hqlQuery, "hqlQuery can not be null");
+    	Objects.requireNonNull(clazz, "clazz can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         try {
-            return (T) session.createQuery(hqlQuery).getResultList();
-        } catch (final HibernateException e) {
+            return (T) session.createQuery(hqlQuery, clazz).getResultList();
+        } catch (HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {
             session.close();
@@ -97,14 +101,18 @@ public class DataStore {
      * Retrieves a single row from the database
      * 
      * @param hqlQuery The query to execute
+     * @param clazz The resulting class
+     * 
      * @return Optional, containing a single row object or null if none found
      */
-    public Optional findOne(String hqlQuery) {
-        final Session session = this.sessionFactory.openSession();
-
+    public Optional findOne(String hqlQuery, Class<?> clazz) {
+    	Objects.requireNonNull(hqlQuery, "hqlQuery can not be null");
+    	Objects.requireNonNull(clazz, "clazz can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         try {
-            return session.createQuery(hqlQuery).uniqueResultOptional();
-        } catch (final HibernateException e) {
+            return session.createQuery(hqlQuery, clazz).uniqueResultOptional();
+        } catch (HibernateException e) {
             LOG.error("Failed to execute find query: " + hqlQuery, e);
         } finally {
             session.close();
@@ -121,14 +129,15 @@ public class DataStore {
      * @param object The object to save
      */
     public void save(Object object) {
-        final Session session = this.sessionFactory.openSession();
+    	Objects.requireNonNull(object, "object can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            session.save(object);
+            session.persist(object);
             transaction.commit();
-        } catch (final HibernateException e) {
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -145,38 +154,15 @@ public class DataStore {
      * @param object The object to save
      */
     public void update(Object object) {
-        final Session session = this.sessionFactory.openSession();
+    	Objects.requireNonNull(object, "object can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            session.update(object);
+            session.merge(object);
             transaction.commit();
-        } catch (final HibernateException e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            LOG.error("Failed to persist entity", e);
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Saves or updates an object to the database. This method is transactional,
-     * meaning that any exception during persistence leads to a rollback.
-     *
-     * @param object The object to save
-     */
-    public void saveOrUpdate(Object object) {
-        final Session session = this.sessionFactory.openSession();
-        Transaction transaction = null;
-
-        try {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(object);
-            transaction.commit();
-        } catch (final HibernateException e) {
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -194,14 +180,15 @@ public class DataStore {
      * @param object The object to save
      */
     public void delete(Object object) {
-        final Session session = this.sessionFactory.openSession();
+    	Objects.requireNonNull(object, "object can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            session.delete(object);
+            session.remove(object);
             transaction.commit();
-        } catch (final HibernateException e) {
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -217,15 +204,15 @@ public class DataStore {
      * @param name The name of the table
      */
     public void truncateTable(String name){
-        final Session session = this.sessionFactory.openSession();
+    	Objects.requireNonNull(name, "name can not be null");
+    	
+        Session session = this.sessionFactory.openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
-            final Query query = session.createQuery(String.format("DELETE FROM %s", name));
-            query.executeUpdate();
+            session.createMutationQuery(String.format("DELETE FROM %s", name)).executeUpdate();
             transaction.commit();
-        } catch (final HibernateException e) {
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }

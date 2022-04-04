@@ -1,8 +1,7 @@
 package tests.models.submodels;
 
-import javax.persistence.Entity;
-
 import de.svenkubiak.mangooio.models.BaseModel;
+import jakarta.persistence.Entity;
 
 @Entity
 public class Car extends BaseModel {

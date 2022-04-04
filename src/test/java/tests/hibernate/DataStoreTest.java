@@ -38,7 +38,7 @@ public class DataStoreTest {
         final Person person = new Person("Pew", "Poh");
         dataStore.save(person);
 
-        final Optional result = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'");
+        final Optional result = dataStore.findOne("FROM Person p WHERE p.firstname = 'Pew'", Person.class);
 
         assertTrue(result.isPresent());
     }
@@ -52,7 +52,7 @@ public class DataStoreTest {
         a.setLastname("bar2");
         dataStore.update(a);
 
-        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'", Person.class);
         Person p = (Person) b.get();
         
         assertNotNull(p);
@@ -63,12 +63,12 @@ public class DataStoreTest {
     public void testInsertOrUpdate() {
         dataStore.truncateTable("Person");
         final Person a = new Person("foo", "bar");
-        dataStore.saveOrUpdate(a);
+        dataStore.save(a);
 
         a.setLastname("bar2");
-        dataStore.saveOrUpdate(a);
+        dataStore.update(a);
 
-        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'", Person.class);
         Person p = (Person) b.get();
 
         assertNotNull(p);
@@ -84,7 +84,7 @@ public class DataStoreTest {
         final Person b = new Person("foo", "bar");
         dataStore.save(b);
 
-        final List<Person> persons = dataStore.find("FROM Person");
+        final List<Person> persons = dataStore.find("FROM Person", Person.class);
 
         assertNotNull(persons);
         assertEquals(2, persons.size());
@@ -96,7 +96,7 @@ public class DataStoreTest {
         final Person a = new Person("foo", "bar");
         dataStore.save(a);
 
-        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'");
+        final Optional b = dataStore.findOne("FROM Person p WHERE p.firstname = 'foo'", Person.class);
 
         assertTrue(b.isPresent());
     }
@@ -107,7 +107,7 @@ public class DataStoreTest {
         final Car c = new Car("Tesla");
         dataStore.save(c);
 
-        final Optional car = dataStore.findOne("FROM Car c WHERE c.name = 'Tesla'");
+        final Optional car = dataStore.findOne("FROM Car c WHERE c.name = 'Tesla'", Person.class);
 
         assertTrue(car.isPresent());
     }
